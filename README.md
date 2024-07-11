@@ -1,10 +1,10 @@
 # 8 Week SQL Challenge
 
-[8 Week SQL Challenge](https://8weeksqlchallenge.com/) is a series of publicly available SQL challenges created by [Data With Danny](https://www.datawithdanny.com/).
+[8 Week SQL Challenge](https://8weeksqlchallenge.com/) is a series of publicly available SQL challenges, comprising 8 case studies created by [Data With Danny](https://www.datawithdanny.com/).
 
-This repository contains my solutions for the challenges using `MySQL Workbench 8.0.36`.
+This repository contains my solutions for the 8 case studies using `MySQL Workbench 8.0.36`.
 
-There are a total of 8 case studies:
+The 8 case studies are:
 * [Case Study #1 - Danny's Diner](https://github.com/ltiongl/8-week-sql-challenge/edit/main/README.md#case-study-1---dannys-diner)
 * [Case Study #2 - Pizza Runner](https://github.com/ltiongl/8-week-sql-challenge/edit/main/README.md#case-study-2---pizza-runner)
 * [Case Study #3 - Foodie-Fi](https://github.com/ltiongl/8-week-sql-challenge/edit/main/README.md#case-study-3---foodie-fi)
