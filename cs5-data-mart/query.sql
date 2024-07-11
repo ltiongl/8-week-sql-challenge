@@ -10,7 +10,7 @@ SELECT * FROM weekly_sales;
 
 DROP TABLE IF EXISTS clean_weekly_sales;
 CREATE TABLE clean_weekly_sales (
-	week_date DATE, 
+    week_date DATE, 
     week_number INT,
     month_number INT,
     calendar_year INT,
@@ -27,14 +27,14 @@ CREATE TABLE clean_weekly_sales (
 
 INSERT INTO clean_weekly_sales
 SELECT
-	STR_TO_DATE(week_date, '%d/%m/%Y') AS week_date,
+    STR_TO_DATE(week_date, '%d/%m/%Y') AS week_date,
     WEEK(STR_TO_DATE(week_date, '%d/%m/%Y')) AS week_number,
     MONTH(STR_TO_DATE(week_date, '%d/%m/%Y')) AS month_number,
     YEAR(STR_TO_DATE(week_date, '%d/%m/%Y')) AS calendar_year,
     region,
     platform,
     CASE
-		WHEN segment = 'null' THEN 'unknown' 
+        WHEN segment = 'null' THEN 'unknown' 
         WHEN segment = 'F1' THEN 'F1'
         WHEN segment = 'F2' THEN 'F2'
         WHEN segment = 'F3' THEN 'F3'
@@ -43,20 +43,20 @@ SELECT
         WHEN segment = 'C3' THEN 'C3'
         WHEN segment = 'C4' THEN 'C4' END AS segment,
     CASE
-		WHEN segment LIKE '%1' THEN 'Young Adults'
+        WHEN segment LIKE '%1' THEN 'Young Adults'
         WHEN segment LIKE '%2' THEN 'Middle Aged'
         WHEN segment LIKE '%3' OR segment LIKE '%4' THEN 'Retirees' 
         ELSE 'unknown' END AS age_band,
-	CASE
-		WHEN segment LIKE 'C%' THEN 'Couples'
+    CASE
+        WHEN segment LIKE 'C%' THEN 'Couples'
         WHEN segment LIKE 'F%' THEN 'Families' 
         ELSE 'unknown' END AS demographic,
-	customer_type,
+    customer_type,
     transactions,
     sales,
     ROUND((sales / transactions), 2) AS avg_sales
 FROM
-	weekly_sales;
+    weekly_sales;
 
 SELECT * FROM clean_weekly_sales;
 
@@ -69,22 +69,22 @@ FROM clean_weekly_sales;
 -- 2.2. What range of week numbers are missing from the dataset?
 
 WITH RECURSIVE week_seq AS (
-	SELECT 1 AS seq
-		UNION ALL 
-	SELECT seq + 1 
+    SELECT 1 AS seq
+        UNION ALL 
+    SELECT seq + 1 
     FROM week_seq 
     WHERE seq <= 53)
 SELECT seq 
 FROM week_seq 
 WHERE seq NOT IN (
-	SELECT DISTINCT week_number
-	FROM clean_weekly_sales);
+    SELECT DISTINCT week_number
+    FROM clean_weekly_sales);
 
 -- 2.3. How many total transactions were there for each year in the dataset?
 
 SELECT
-	calendar_year,
-	SUM(transactions) AS total_transactions
+    calendar_year,
+    SUM(transactions) AS total_transactions
 FROM clean_weekly_sales
 GROUP BY calendar_year
 ORDER BY calendar_year;
@@ -92,9 +92,9 @@ ORDER BY calendar_year;
 -- 2.4. What is the total sales for each region for each month?
 
 SELECT
-	region,
-	month_number,
-	SUM(sales) AS total_sales
+    region,
+    month_number,
+    SUM(sales) AS total_sales
 FROM clean_weekly_sales
 GROUP BY region, month_number
 ORDER BY month_number, region;
@@ -102,8 +102,8 @@ ORDER BY month_number, region;
 -- 2.5. What is the total count of transactions for each platform
 
 SELECT
-	platform,
-	SUM(transactions) AS total_transaction
+    platform,
+    SUM(transactions) AS total_transaction
 FROM clean_weekly_sales
 GROUP BY platform
 ORDER BY total_transaction DESC;
@@ -111,17 +111,17 @@ ORDER BY total_transaction DESC;
 -- 2.6. What is the percentage of sales for Retail vs Shopify for each month?
 
 WITH sales_per_month AS (
-	SELECT 
-		calendar_year,
-		month_number,
+    SELECT 
+        calendar_year,
+        month_number,
         platform,
-		SUM(sales) AS monthly_sales
+        SUM(sales) AS monthly_sales
     FROM clean_weekly_sales 
     GROUP BY calendar_year, month_number, platform)
 SELECT
-	calendar_year,
-	month_number,
-	ROUND((SUM(CASE WHEN platform = 'Retail' THEN monthly_sales ELSE NULL END) / SUM(monthly_sales) * 100), 2) AS retail_percentage,
+    calendar_year,
+    month_number,
+    ROUND((SUM(CASE WHEN platform = 'Retail' THEN monthly_sales ELSE NULL END) / SUM(monthly_sales) * 100), 2) AS retail_percentage,
     ROUND((SUM(CASE WHEN platform = 'Shopify' THEN monthly_sales ELSE NULL END) / SUM(monthly_sales) * 100), 2) AS shopify_percentage
 FROM sales_per_month
 GROUP BY calendar_year, month_number
@@ -130,18 +130,18 @@ ORDER BY calendar_year, month_number;
 -- 2.7. What is the percentage of sales by demographic for each year in the dataset?
 
 WITH sales_per_year AS (
-	SELECT
-		calendar_year,
-		demographic,
-		SUM(sales) AS annual_sales
-	FROM clean_weekly_sales
-	GROUP BY calendar_year, demographic
-	ORDER BY calendar_year, demographic)
+    SELECT
+        calendar_year,
+        demographic,
+        SUM(sales) AS annual_sales
+    FROM clean_weekly_sales
+    GROUP BY calendar_year, demographic
+    ORDER BY calendar_year, demographic)
 SELECT
-	calendar_year,
-	ROUND((SUM(CASE WHEN demographic = 'Couples' THEN annual_sales ELSE NULL END) / SUM(annual_sales) * 100), 2) AS couples_percentage,
+    calendar_year,
+    ROUND((SUM(CASE WHEN demographic = 'Couples' THEN annual_sales ELSE NULL END) / SUM(annual_sales) * 100), 2) AS couples_percentage,
     ROUND((SUM(CASE WHEN demographic = 'Families' THEN annual_sales ELSE NULL END) / SUM(annual_sales) * 100), 2) AS families_percentage,
-	ROUND((SUM(CASE WHEN demographic = 'unknown' THEN annual_sales ELSE NULL END) / SUM(annual_sales) * 100), 2) AS unknown_percentage
+    ROUND((SUM(CASE WHEN demographic = 'unknown' THEN annual_sales ELSE NULL END) / SUM(annual_sales) * 100), 2) AS unknown_percentage
 FROM sales_per_year
 GROUP BY calendar_year
 ORDER BY calendar_year;
@@ -149,7 +149,7 @@ ORDER BY calendar_year;
 -- 2.8. Which age_band and demographic values contribute the most to Retail sales?
 
 SELECT
-	age_band,
+    age_band,
     demographic,
     SUM(sales) AS total_sales
 FROM clean_weekly_sales
@@ -160,7 +160,7 @@ ORDER BY total_sales DESC;
 -- 2.9.Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
 
 SELECT
-	calendar_year,
+    calendar_year,
     platform,
     ROUND(AVG(avg_transaction), 2) AS average_avg_transaction,
     ROUND(SUM(sales) / SUM(transactions), 2) AS actual_avg_transaction
@@ -176,18 +176,18 @@ ORDER BY calendar_year, platform;
 -- 3.1. What is the total sales for the 4 weeks before and after 2020-06-15? What is the growth or reduction rate in actual values and percentage of sales?
 
 SET @baseline_week = (
-	SELECT DISTINCT week_number
+    SELECT DISTINCT week_number
     FROM clean_weekly_sales 
     WHERE week_date = '2020-06-15');
 
 WITH cte_sales AS (
-	SELECT
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 4 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 3 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020)
+    SELECT
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 4 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 3 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020)
 SELECT
-	*,
+    *,
     total_sales_after - total_sales_before AS sales_changes_value,
     ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_changes_percentage
 FROM cte_sales;
@@ -195,13 +195,13 @@ FROM cte_sales;
 -- 3.2. What about the entire 12 weeks before and after?
 
 WITH cte_sales AS (
-	SELECT
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020)
+    SELECT
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020)
 SELECT
-	*,
+    *,
     total_sales_after - total_sales_before AS sales_changes_value,
     ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_changes_percentage
 FROM cte_sales;
@@ -210,14 +210,14 @@ FROM cte_sales;
 -- For 4 weeks comparison
 
 WITH cte_sales AS (
-	SELECT
-		calendar_year,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 4 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 3 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	GROUP BY calendar_year)
+    SELECT
+        calendar_year,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 4 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 3 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    GROUP BY calendar_year)
 SELECT
-	*,
+    *,
     total_sales_after - total_sales_before AS sales_change_value,
     ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
@@ -226,14 +226,14 @@ ORDER BY calendar_year;
 -- For 12 weeks comparison
 
 WITH cte_sales AS (
-	SELECT
-		calendar_year,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	GROUP BY calendar_year)
+    SELECT
+        calendar_year,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    GROUP BY calendar_year)
 SELECT
-	*,
+    *,
     total_sales_after - total_sales_before AS sales_change_value,
     ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
@@ -250,24 +250,24 @@ ORDER BY calendar_year;
 SELECT * FROM clean_weekly_sales;
 
 SET @baseline_week = (
-	SELECT DISTINCT week_number
+    SELECT DISTINCT week_number
     FROM clean_weekly_sales 
     WHERE week_date = '2020-06-15');
 
 -- region
 
 WITH cte_sales AS (
-	SELECT
-		region,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020
+    SELECT
+        region,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020
     GROUP BY region)
 SELECT
-	region,
-	total_sales_after - total_sales_before AS sales_change_value,
-	ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
+    region,
+    total_sales_after - total_sales_before AS sales_change_value,
+    ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
 ORDER BY sales_change_percentage
 LIMIT 1;
@@ -275,17 +275,17 @@ LIMIT 1;
 -- platform
 
 WITH cte_sales AS (
-	SELECT
-		platform,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020
+    SELECT
+        platform,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020
     GROUP BY platform)
 SELECT
-	platform,
-	total_sales_after - total_sales_before AS sales_change_value,
-	ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
+    platform,
+    total_sales_after - total_sales_before AS sales_change_value,
+    ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
 ORDER BY sales_change_percentage
 LIMIT 1;
@@ -293,17 +293,17 @@ LIMIT 1;
 -- age_band
 
 WITH cte_sales AS (
-	SELECT
-		age_band,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020 AND age_band != 'Unknown'
+    SELECT
+        age_band,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020 AND age_band != 'Unknown'
     GROUP BY age_band)
 SELECT
-	age_band,
-	total_sales_after - total_sales_before AS sales_change_value,
-	ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
+    age_band,
+    total_sales_after - total_sales_before AS sales_change_value,
+    ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
 ORDER BY sales_change_percentage
 LIMIT 1;
@@ -311,17 +311,17 @@ LIMIT 1;
 -- demographic
 
 WITH cte_sales AS (
-	SELECT
-		demographic,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020 AND demographic != 'Unknown'
+    SELECT
+        demographic,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020 AND demographic != 'Unknown'
     GROUP BY demographic)
 SELECT
-	demographic,
-	total_sales_after - total_sales_before AS sales_change_value,
-	ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
+    demographic,
+    total_sales_after - total_sales_before AS sales_change_value,
+    ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
 ORDER BY sales_change_percentage
 LIMIT 1;
@@ -329,17 +329,17 @@ LIMIT 1;
 -- customer_type
 
 WITH cte_sales AS (
-	SELECT
-		customer_type,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
-		SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
-	FROM clean_weekly_sales
-	WHERE calendar_year = 2020
+    SELECT
+        customer_type,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week - 12 AND  @baseline_week - 1 THEN sales END) AS total_sales_before,
+        SUM(CASE WHEN week_number BETWEEN @baseline_week AND  @baseline_week + 11 THEN sales END) AS total_sales_after
+    FROM clean_weekly_sales
+    WHERE calendar_year = 2020
     GROUP BY customer_type)
 SELECT
-	customer_type,
-	total_sales_after - total_sales_before AS sales_change_value,
-	ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
+    customer_type,
+    total_sales_after - total_sales_before AS sales_change_value,
+    ROUND((total_sales_after - total_sales_before) / total_sales_before * 100, 2) AS sales_change_percentage
 FROM cte_sales
 ORDER BY sales_change_percentage
 LIMIT 1;
