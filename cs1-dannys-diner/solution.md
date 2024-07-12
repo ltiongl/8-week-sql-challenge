@@ -1,7 +1,5 @@
 # [Case Study #1 - Danny's Diner](https://8weeksqlchallenge.com/case-study-1/)
 
-## Case Study Questions
-
 ### 1. What is the total amount each customer spent at the restaurant?
 
 ```mysql
