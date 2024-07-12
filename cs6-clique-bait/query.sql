@@ -7,7 +7,7 @@ USE clique_bait;
 
 -- 2.1. How many users are there?
 
-SELECT COUNT(DISTINCT user_id)
+SELECT COUNT(DISTINCT user_id) AS user_count
 FROM users;
 
 -- 2.2. How many cookies does each user have on average?
