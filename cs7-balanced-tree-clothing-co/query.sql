@@ -108,7 +108,7 @@ WITH discount_per_txn AS (
     FROM sales
     GROUP BY txn_id)
 SELECT
-    ROUND(AVG(total_txn_discount), 2)
+    ROUND(AVG(total_txn_discount), 2) AS average_txn_discount
 FROM discount_per_txn;
 
 -- 5. What is the percentage split of all transactions for members vs non-members?
