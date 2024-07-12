@@ -1,4 +1,4 @@
-# Case Study #2 - Pizza Runner
+# [Case Study #2 - Pizza Runner](https://8weeksqlchallenge.com/case-study-2/)
 
 ## Data Cleaning
 ### 1. Clean up `null` values, and correct the variable types in `customer_orders` table.
