@@ -247,8 +247,6 @@ ORDER BY calendar_year;
   -- demographic
   -- customer_type
 
-SELECT * FROM clean_weekly_sales;
-
 SET @baseline_week = (
     SELECT DISTINCT week_number
     FROM clean_weekly_sales 
