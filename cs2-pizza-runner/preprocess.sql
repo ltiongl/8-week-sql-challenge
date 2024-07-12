@@ -33,17 +33,17 @@ CREATE TABLE customer_orders_updated (order_id INT, customer_id INT, pizza_id IN
 
 INSERT INTO customer_orders_updated
 SELECT
-	order_id,
+    order_id,
     customer_id,
     pizza_id,
     CASE
-		WHEN exclusions IS NULL OR exclusions like 'null' THEN ''
+        WHEN exclusions IS NULL OR exclusions like 'null' THEN ''
         ELSE exclusions
-	END AS exclusions,
-	CASE
-		WHEN extras IS NULL OR extras like 'null' THEN ''
+    END AS exclusions,
+    CASE
+        WHEN extras IS NULL OR extras like 'null' THEN ''
         ELSE extras
-	END AS extras,
+    END AS extras,
     order_time
 FROM customer_orders;
 
@@ -60,28 +60,28 @@ CREATE TABLE runner_orders_updated (order_id INT, runner_id INT, pickup_time VAR
 
 INSERT INTO runner_orders_updated
 SELECT 
-	order_id,
+    order_id,
     runner_id,
     CASE
-		WHEN pickup_time LIKE "null" THEN NULL
+        WHEN pickup_time LIKE "null" THEN NULL
         ELSE pickup_time
-	END AS pickup_time,
+        END AS pickup_time,
     CASE
-		WHEN distance LIKE "null" THEN NULL
+        WHEN distance LIKE "null" THEN NULL
         WHEN distance LIKE "%km" THEN TRIM(TRAILING 'km' FROM distance)
         ELSE distance
-	END AS distance,
+    END AS distance,
     CASE
-		WHEN duration LIKE "null" THEN NULL
+        WHEN duration LIKE "null" THEN NULL
         WHEN duration LIKE "%mins" THEN TRIM(TRAILING 'mins' FROM duration)
         WHEN duration LIKE "%minutes" THEN TRIM(TRAILING 'minutes' FROM duration)
         WHEN duration LIKE "%minute" THEN TRIM(TRAILING 'minute' FROM duration)
         ELSE duration
-	END AS duration,
+        END AS duration,
     CASE
-		WHEN cancellation = '' OR cancellation LIKE "null" THEN NULL
+        WHEN cancellation = '' OR cancellation LIKE "null" THEN NULL
         ELSE cancellation
-	END AS cancellation
+    END AS cancellation
 FROM runner_orders;
 
 DESCRIBE runner_orders_updated;
@@ -103,27 +103,27 @@ CREATE TABLE pizza_recipes_updated_optional (pizza_id INT, toppings INT);
 
 INSERT INTO pizza_recipes_updated_optional
 WITH RECURSIVE pizza_recipes_updated_optional AS (
-	SELECT
-		pizza_id,
-		SUBSTRING_INDEX(toppings, ',', 1) AS split_value,
-		IF(LOCATE(',', toppings) > 0, SUBSTRING(toppings, LOCATE(',', toppings) + 1), NULL) AS remaining_values
-	FROM
-		pizza_recipes
-	UNION ALL
-	SELECT
-		pizza_id,
-		SUBSTRING_INDEX(remaining_values, ',', 1) AS split_value,
-		IF(LOCATE(',', remaining_values) > 0, SUBSTRING(remaining_values, LOCATE(',', remaining_values) + 1), NULL)
-	FROM
-		pizza_recipes_updated_optional
-	WHERE
-		remaining_values IS NOT NULL
+    SELECT
+	pizza_id,
+	SUBSTRING_INDEX(toppings, ',', 1) AS split_value,
+	IF(LOCATE(',', toppings) > 0, SUBSTRING(toppings, LOCATE(',', toppings) + 1), NULL) AS remaining_values
+    FROM
+	pizza_recipes
+    UNION ALL
+    SELECT
+	pizza_id,
+	SUBSTRING_INDEX(remaining_values, ',', 1) AS split_value,
+	IF(LOCATE(',', remaining_values) > 0, SUBSTRING(remaining_values, LOCATE(',', remaining_values) + 1), NULL)
+    FROM
+	pizza_recipes_updated_optional
+    WHERE
+	remaining_values IS NOT NULL
 )
 SELECT
-	pizza_id,
-	split_value
+    pizza_id,
+    split_value
 FROM
-	pizza_recipes_updated_optional
+    pizza_recipes_updated_optional
 ORDER BY pizza_id;
 
 SELECT * FROM pizza_recipes_updated_optional;
@@ -138,41 +138,41 @@ CREATE TABLE customer_orders_updated_optional (order_id INT, customer_id INT, pi
 
 INSERT INTO customer_orders_updated_optional
 WITH RECURSIVE customer_orders_updated_optional AS (
-	SELECT
-		order_id,
+    SELECT
+	order_id,
         customer_id,
         pizza_id,
-		SUBSTRING_INDEX(exclusions, ',', 1) AS exclusions_split_value,
-		IF(LOCATE(',', exclusions) > 0, SUBSTRING(exclusions, LOCATE(',', exclusions) + 1), '') AS exclusions_remaining_values,
+	SUBSTRING_INDEX(exclusions, ',', 1) AS exclusions_split_value,
+	IF(LOCATE(',', exclusions) > 0, SUBSTRING(exclusions, LOCATE(',', exclusions) + 1), '') AS exclusions_remaining_values,
         SUBSTRING_INDEX(extras, ',', 1) AS extras_split_value,
-		IF(LOCATE(',', extras) > 0, SUBSTRING(extras, LOCATE(',', extras) + 1), '') AS extras_remaining_values,
+	IF(LOCATE(',', extras) > 0, SUBSTRING(extras, LOCATE(',', extras) + 1), '') AS extras_remaining_values,
         order_time
-	FROM
-		customer_orders_updated
-	UNION ALL
-	SELECT
-		order_id,
+    FROM
+	customer_orders_updated
+    UNION ALL
+    SELECT
+	order_id,
         customer_id,
         pizza_id,
-		SUBSTRING_INDEX(exclusions_remaining_values, ',', 1) AS exclusions_split_value,
-		IF(LOCATE(',', exclusions_remaining_values) > 0, SUBSTRING(exclusions_remaining_values, LOCATE(', ', exclusions_remaining_values) + 1), ''),
+	SUBSTRING_INDEX(exclusions_remaining_values, ',', 1) AS exclusions_split_value,
+	IF(LOCATE(',', exclusions_remaining_values) > 0, SUBSTRING(exclusions_remaining_values, LOCATE(', ', exclusions_remaining_values) + 1), ''),
         SUBSTRING_INDEX(extras_remaining_values, ',', 1) AS extras_split_value,
-		IF(LOCATE(',', extras_remaining_values) > 0, SUBSTRING(extras_remaining_values, LOCATE(',', extras_remaining_values) + 1), ''),
+	IF(LOCATE(',', extras_remaining_values) > 0, SUBSTRING(extras_remaining_values, LOCATE(',', extras_remaining_values) + 1), ''),
         order_time
-	FROM
-		customer_orders_updated_optional
-	WHERE
-		exclusions_remaining_values != '' OR extras_remaining_values != ''
+    FROM
+	customer_orders_updated_optional
+    WHERE
+	exclusions_remaining_values != '' OR extras_remaining_values != ''
 )
 SELECT
-	order_id,
-	customer_id,
-	pizza_id,
+    order_id,
+    customer_id,
+    pizza_id,
     exclusions_split_value,
     extras_split_value,
     order_time
 FROM
-	customer_orders_updated_optional
+    customer_orders_updated_optional
 ORDER BY order_id;
 
 SELECT * FROM customer_orders_updated_optional;
