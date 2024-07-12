@@ -65,7 +65,7 @@ SELECT
     CASE
         WHEN pickup_time LIKE "null" THEN NULL
         ELSE pickup_time
-        END AS pickup_time,
+    END AS pickup_time,
     CASE
         WHEN distance LIKE "null" THEN NULL
         WHEN distance LIKE "%km" THEN TRIM(TRAILING 'km' FROM distance)
@@ -77,7 +77,7 @@ SELECT
         WHEN duration LIKE "%minutes" THEN TRIM(TRAILING 'minutes' FROM duration)
         WHEN duration LIKE "%minute" THEN TRIM(TRAILING 'minute' FROM duration)
         ELSE duration
-        END AS duration,
+    END AS duration,
     CASE
         WHEN cancellation = '' OR cancellation LIKE "null" THEN NULL
         ELSE cancellation
