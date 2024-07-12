@@ -26,7 +26,7 @@ SELECT * FROM runner;
 
 -- Data cleaning and type correction
 
--- 1. Clean up `null` values, and correct the variable types in customer_orders table.
+-- 1. Clean up 'null' values, and correct the variable types in customer_orders table.
 
 DROP TABLE IF EXISTS customer_orders_updated;
 CREATE TABLE customer_orders_updated (order_id INT, customer_id INT, pizza_id INT, exclusions VARCHAR(4), extras VARCHAR(4), order_time TIMESTAMP);
