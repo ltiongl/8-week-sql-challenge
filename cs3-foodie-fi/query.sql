@@ -54,7 +54,7 @@ ORDER BY plan_id;
 
 SELECT
     SUM(CASE WHEN plan_name = 'churn' THEN 1 END) AS customer_count,
-    ROUND(SUM(CASE WHEN plan_name = 'churn' THEN 1 END) / COUNT(DISTINCT customer_id) * 100, 1) AS chun_percentage
+    ROUND(SUM(CASE WHEN plan_name = 'churn' THEN 1 END) / COUNT(DISTINCT customer_id) * 100, 1) AS churn_percentage
 FROM 
     subscriptions 
         JOIN
