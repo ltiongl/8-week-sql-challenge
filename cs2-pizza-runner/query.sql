@@ -528,7 +528,7 @@ CREATE TABLE ratings (order_id INT, rating INT);
 INSERT INTO ratings (order_id, rating)
 VALUES  (1,5), (2,4), (3,3), (4,1), (5,2), (7,3), (8,5), (10,4);
 
- SELECT * FROM ratings;
+SELECT * FROM ratings;
 
 -- D.4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
       -- customer_id
