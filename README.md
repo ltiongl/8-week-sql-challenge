@@ -23,7 +23,7 @@ Danny seriously loves Japanese food so in the beginning of 2021, he decides to e
 
 Danny’s Diner is in need of your assistance to help the restaurant stay afloat - the restaurant has captured some very basic data from their few months of operation but have no idea how to use their data to help them run the business.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs1-dannys-diner/solution.md)
 
 ---
 
@@ -37,7 +37,7 @@ Danny was sold on the idea, but he knew that pizza alone was not going to help h
 
 Danny started by recruiting “runners” to deliver fresh pizza from Pizza Runner Headquarters (otherwise known as Danny’s house) and also maxed out his credit card to pay freelance developers to build a mobile app to accept orders from customers.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs2-pizza-runner/solution.md)
 
 ---
 
@@ -51,7 +51,7 @@ Danny finds a few smart friends to launch his new startup Foodie-Fi in 2020 and 
 
 Danny created Foodie-Fi with a data driven mindset and wanted to ensure all future investment decisions and new features were decided using data. This case study focuses on using subscription style digital data to answer important business questions.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs3-foodie-fi/solution.md)
 
 ---
 
@@ -71,7 +71,7 @@ The management team at Data Bank want to increase their total customer base - bu
 
 This case study is all about calculating metrics, growth and helping the business analyse their data in a smart way to better forecast and plan for their future developments!
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs4-data-bank/solution.md)
 
 ---
 
@@ -90,7 +90,7 @@ The key business question he wants you to help him answer are the following:
 * Which platform, region, segment and customer types were the most impacted by this change?
 * What can we do about future introduction of similar sustainability updates to the business to minimise impact on sales?
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs5-data-mart/solution.md)
 
 ---
 
@@ -102,7 +102,7 @@ Clique Bait is not like your regular online seafood store - the founder and CEO 
 
 In this case study - you are required to support Danny’s vision and analyse his dataset and come up with creative solutions to calculate funnel fallout rates for the Clique Bait online store.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs6-clique-bait/solution.md)
 
 ---
 
@@ -114,7 +114,7 @@ Balanced Tree Clothing Company prides themselves on providing an optimised range
 
 Danny, the CEO of this trendy fashion company has asked you to assist the team’s merchandising teams analyse their sales performance and generate a basic financial report to share with the wider business.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs7-balanced-tree-clothing-co/solution.md)
 
 ---
 
@@ -130,7 +130,7 @@ In particular - the composition and rankings for different interests are provide
 
 Danny has asked for your assistance to analyse aggregated metrics for an example client and provide some high level insights about the customer list and their interests.
 
-Solution link.
+[Solution link](https://github.com/ltiongl/8-week-sql-challenge/blob/main/cs8-fresh-segments/solution.md)
 
 
 
