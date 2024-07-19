@@ -5,14 +5,14 @@
 This repository contains my solutions for the 8 case studies using `MySQL Workbench 8.0.36`.
 
 The 8 case studies are:
-* [Case Study #1 - Danny's Diner](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-1---dannys-diner)
-* [Case Study #2 - Pizza Runner](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-2---pizza-runner)
-* [Case Study #3 - Foodie-Fi](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-3---foodie-fi)
-* [Case Study #4 - Data Bank](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-4---data-bank)
-* [Case Study #5 - Data Mart](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-5---data-mart)
-* [Case Study #6 - Clique Bait](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-6---clique-bait)
-* [Case Study #7 - Balanced Tree Clothing Co.](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-7---balanced-tree-clothing-co)
-* [Case Study #8 - Fresh Segments](https://github.com/ltiongl/8-week-sql-challenge/main/README.md#case-study-8---fresh-segments)
+* [Case Study #1 - Danny's Diner](https://github.com/ltiongl/8-week-sql-challenge/blob/main/README.md#case-study-1---dannys-diner))
+* [Case Study #2 - Pizza Runner](https://github.com/ltiongl/8-week-sql-challenge/blob/main/README.md#case-study-2---pizza-runner)
+* [Case Study #3 - Foodie-Fi](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-3---foodie-fi)
+* [Case Study #4 - Data Bank](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-4---data-bank)
+* [Case Study #5 - Data Mart](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-5---data-mart)
+* [Case Study #6 - Clique Bait](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-6---clique-bait)
+* [Case Study #7 - Balanced Tree Clothing Co.](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-7---balanced-tree-clothing-co)
+* [Case Study #8 - Fresh Segments](https://github.com/ltiongl/8-week-sql-challenge/blob/README.md#case-study-8---fresh-segments)
 
 ---
 
