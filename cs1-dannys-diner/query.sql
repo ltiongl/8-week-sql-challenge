@@ -184,7 +184,7 @@ FROM
         JOIN
     menu USING (product_id)
         LEFT JOIN
-    members b USING (customer_id)
+    members USING (customer_id)
 ORDER BY customer_id, order_date, price DESC;
 
 -- 2. Rank all the things
